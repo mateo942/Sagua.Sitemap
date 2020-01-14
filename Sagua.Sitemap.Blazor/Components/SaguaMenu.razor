@@ -1,0 +1,10 @@
+﻿@inherits SaguaMenuBase
+
+<ul>
+    @{ 
+        foreach (var node in MenuNodes)
+        {
+            <Sagua.Sitemap.Blazor.Components.SaguaNavLink MenuNode="node"></Sagua.Sitemap.Blazor.Components.SaguaNavLink>
+        }
+    }
+</ul>

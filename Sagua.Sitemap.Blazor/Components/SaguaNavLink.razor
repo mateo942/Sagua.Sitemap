@@ -1,0 +1,19 @@
+﻿@inherits SaguaNavLinkBase
+
+<li>
+    <a href="@MenuNode.Path">@MenuNode.Title</a>
+
+    @{
+        if (HasChildren)
+        {
+            <ul>
+                @{
+                    foreach (var child in MenuNode.Children)
+                    {
+                        <Sagua.Sitemap.Blazor.Components.SaguaNavLink MenuNode="child"></Sagua.Sitemap.Blazor.Components.SaguaNavLink>
+                    }
+                }
+            </ul>
+        }
+    }
+</li>

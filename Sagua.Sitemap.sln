@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap", "Sagua.Site
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap.Example", "Sagua.Sitemap.Example\Sagua.Sitemap.Example.csproj", "{1076C8E5-E8D3-4962-B8FD-EBADD76211BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap.Blazor", "Sagua.Sitemap.Blazor\Sagua.Sitemap.Blazor.csproj", "{DC49EAB2-741C-46A5-842A-F15C32825E5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap.Blazor.Example", "Sagua.Sitemap.Blazor.Example\Sagua.Sitemap.Blazor.Example.csproj", "{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{1076C8E5-E8D3-4962-B8FD-EBADD76211BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1076C8E5-E8D3-4962-B8FD-EBADD76211BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1076C8E5-E8D3-4962-B8FD-EBADD76211BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC49EAB2-741C-46A5-842A-F15C32825E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC49EAB2-741C-46A5-842A-F15C32825E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC49EAB2-741C-46A5-842A-F15C32825E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC49EAB2-741C-46A5-842A-F15C32825E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
