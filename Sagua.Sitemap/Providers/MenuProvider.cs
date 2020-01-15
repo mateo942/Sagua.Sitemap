@@ -62,7 +62,8 @@ namespace Sagua.Sitemap.Providers
                 Id = x.Id,
                 ParentId = x.ParentId,
                 Title = x.Name,
-                Path = x.Path
+                Path = x.Path,
+                Icon = x.Icon
             }).ToList();
 
             //Index all node

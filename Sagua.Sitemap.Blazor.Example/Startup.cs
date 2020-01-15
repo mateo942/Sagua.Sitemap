@@ -43,18 +43,26 @@ namespace Sagua.Sitemap.Blazor.Example
         {
             app.AddComponent<App>("app");
 
-            var games = await buildMenuSitemapNode.AddAsync("Games", "/games");
+            var games = await buildMenuSitemapNode.AddAsync("Games", "/games", cfg =>
+            {
+                cfg.Icon = "oi oi-puzzle-piece";
+            });
             await buildMenuSitemapNode.AddAsync("Witcher 1", "/games/witcher-1", games.Id);
             await buildMenuSitemapNode.AddAsync("Witcher 2", "/games/witcher-2", games.Id);
             await buildMenuSitemapNode.AddAsync("Witcher 3", "/games/witcher-3", games.Id);
 
-            await buildMenuSitemapNode.AddAsync<Counter>("Couter");
-            await buildMenuSitemapNode.AddAsync<FetchData>("Example data");
+            await buildMenuSitemapNode.AddAsync<Counter>("Couter", cfg =>
+            {
+                cfg.Icon = "oi oi-plus";
+            });
+            await buildMenuSitemapNode.AddAsync<FetchData>("Example data", cfg =>
+            {
+                cfg.Icon = "oi oi-document";
+            });
 
             await menuProvider.BuidAsync();
 
             var nodes = await menuProvider.GetAsync();
-            Console.WriteLine(string.Join(", ", nodes.Select(x => x.ToString())));
         }
     }
 }

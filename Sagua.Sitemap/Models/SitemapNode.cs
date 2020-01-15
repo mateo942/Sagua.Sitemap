@@ -46,5 +46,19 @@ namespace Sagua.Sitemap.Models
         public NodeType NodeType { get; protected set; }
 
         public Guid? ParentId { get; protected set; }
+
+        public string Icon { get; protected set; }
+
+        public SitemapNode SetIcon(string icon)
+        {
+            if (string.IsNullOrEmpty(icon))
+            {
+                throw new ArgumentException(nameof(icon));
+            }
+
+            Icon = icon;
+
+            return this;
+        }
     }
 }
