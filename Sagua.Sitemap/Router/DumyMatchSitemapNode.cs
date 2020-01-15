@@ -36,6 +36,11 @@ namespace Sagua.Sitemap.Router
 
         public async Task<IEnumerable<SitemapNode>> FindByPath(string path)
         {
+            if (!string.IsNullOrEmpty(_matchOptions.BasePath))
+            {
+                path = path.Replace(_matchOptions.BasePath, "");
+            }
+
             var nodes = await _sitemapNodeRepository.GetListAsync(new Queries.SitemapNodeQuery
             {
                 Path = path

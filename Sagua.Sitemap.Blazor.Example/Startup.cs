@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Sagua.Sitemap.Blazor.Example.Pages;
+using Sagua.Sitemap.Blazor.Provider;
 using Sagua.Sitemap.Options;
 using Sagua.Sitemap.Providers;
 using Sagua.Sitemap.Repository;
@@ -15,14 +17,17 @@ namespace Sagua.Sitemap.Blazor.Example
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.AddLogging();
+            services.AddLogging(cfg => {
+                cfg.AddConsole();
+                cfg.SetMinimumLevel(LogLevel.Trace);
+            });
 
             services.AddScoped<ISitemapNodeRepository, SitemapNodeInMemoryRepository>();
             services.AddScoped<IMatchSitemapNode, DumyMatchSitemapNode>();
-            services.AddScoped<IMenuProvider, MenuProvider>();
+            services.AddScoped<IMenuProvider, BlazorMenuProvider>();
             services.AddOptions<MatchOptions>().Configure(x =>
             {
-                x.BasePath = "https://sagua.com";
+                x.BasePath = "https://localhost:44388";
             });
             services.AddOptions<MenuOptions>().Configure(x =>
             {

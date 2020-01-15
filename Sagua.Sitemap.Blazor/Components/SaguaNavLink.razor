@@ -1,7 +1,7 @@
 ﻿@inherits SaguaNavLinkBase
 
 <li>
-    <a href="@MenuNode.Path">@MenuNode.Title</a>
+    <a href="@MenuNode.Path" data-active=@MenuNode.IsActive >@MenuNode.Title</a>
 
     @{
         if (HasChildren)

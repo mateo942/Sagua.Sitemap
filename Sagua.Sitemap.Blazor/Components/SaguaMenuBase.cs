@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sagua.Sitemap.Blazor.Components
 {
-    public class SaguaMenuBase : ComponentBase
+    public class SaguaMenuBase : ComponentBase, IDisposable
     {
         [Inject]
         protected IMenuProvider _menuProvider { get; set; }
@@ -17,8 +17,20 @@ namespace Sagua.Sitemap.Blazor.Components
 
         protected async override Task OnInitializedAsync()
         {
+            _menuProvider.ChangeActiveNode += _menuProvider_ChangeActiveNode;
+
             MenuNodes = await _menuProvider.GetAsync();
             this.StateHasChanged();
+        }
+
+        private void _menuProvider_ChangeActiveNode(object sender, Events.ChangeActiveNodeEventArgs e)
+        {
+            this.StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            _menuProvider.ChangeActiveNode -= _menuProvider_ChangeActiveNode;
         }
     }
 }

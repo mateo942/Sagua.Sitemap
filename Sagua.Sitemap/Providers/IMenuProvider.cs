@@ -1,4 +1,5 @@
 ﻿using Sagua.Sitemap.Dto;
+using Sagua.Sitemap.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,7 @@ namespace Sagua.Sitemap.Providers
         Task BuidAsync();
         Task<IEnumerable<MenuNodeDto>> GetAsync();
         Task SetActiveNode(string path);
+
+        event EventHandler<ChangeActiveNodeEventArgs> ChangeActiveNode;
     }
 }

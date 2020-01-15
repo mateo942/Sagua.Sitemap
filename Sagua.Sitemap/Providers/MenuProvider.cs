@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sagua.Sitemap.Dto;
+using Sagua.Sitemap.Events;
 using Sagua.Sitemap.Options;
 using Sagua.Sitemap.Repository;
 using Sagua.Sitemap.Router;
@@ -18,11 +19,13 @@ namespace Sagua.Sitemap.Providers
         private const string MENU_PROVIDER_CACHE_NAME = "MenuProvider_Sitemap";
         private const string MENU_PROVIDER_CACHE_INDEX_NAME = "MenuProvider_Sitemap_Index";
 
-        private readonly ISitemapNodeRepository _sitemapNodeRepository;
-        private readonly IMatchSitemapNode _matchSitemapNode;
-        private readonly MenuOptions _menuOptions;
-        private readonly IMemoryCache _memoryCache;
-        private readonly ILogger<MenuProvider> _logger;
+        protected readonly ISitemapNodeRepository _sitemapNodeRepository;
+        protected readonly IMatchSitemapNode _matchSitemapNode;
+        protected readonly MenuOptions _menuOptions;
+        protected readonly IMemoryCache _memoryCache;
+        protected readonly ILogger<MenuProvider> _logger;
+
+        public event EventHandler<ChangeActiveNodeEventArgs> ChangeActiveNode;
 
         public MenuProvider(ISitemapNodeRepository sitemapNodeRepository, IMatchSitemapNode matchSitemapNode, IOptions<MenuOptions> menuOptions,
             IMemoryCache memoryCache, ILogger<MenuProvider> logger)
@@ -112,9 +115,19 @@ namespace Sagua.Sitemap.Providers
             _logger.LogDebug("Try set active node");
 
             _memoryCache.TryGetValue(MENU_PROVIDER_CACHE_INDEX_NAME, out IDictionary<Guid, Dto.MenuNodeDto> indexSitemap);
-            if (indexSitemap == null)
-                return;
+            if (indexSitemap != null)
+            {
+                _logger.LogDebug("Use indexed sitemap nodes");
+                await SetActiveNodeWithIndexedSitemapNode(indexSitemap, path);
+            } else
+            {
 
+            }
+        }
+
+        private async Task SetActiveNodeWithIndexedSitemapNode(IDictionary<Guid, Dto.MenuNodeDto> indexSitemap, string path)
+        {
+            //Disable all
             foreach (var indexNode in indexSitemap)
             {
                 indexNode.Value.SetActive(false);
@@ -122,16 +135,40 @@ namespace Sagua.Sitemap.Providers
 
             var currentActiveSitemapNodes = await _matchSitemapNode.FindByPath(path);
             if (currentActiveSitemapNodes == null || currentActiveSitemapNodes.Any() == false)
-                return;
+            {
+                ChangeActiveNode?.Invoke(this, new ChangeActiveNodeEventArgs
+                {
+                    FoundActiveNode = false,
+                    ActiveNode = null
+                });
+            } else
+            {
+                var currentFirstNode = currentActiveSitemapNodes.First();
+                Dto.MenuNodeDto activeNode = null;
 
-            var currentFirstNode = currentActiveSitemapNodes.First();
-            if (indexSitemap.ContainsKey(currentFirstNode.Id))
-            {
-                indexSitemap[currentFirstNode.Id].SetActive(true);
-            } else if(currentFirstNode.ParentId.HasValue && indexSitemap.ContainsKey(currentFirstNode.ParentId.Value))
-            {
-                indexSitemap[currentFirstNode.ParentId.Value].SetActive(true);
+                if (indexSitemap.ContainsKey(currentFirstNode.Id))
+                {
+                    activeNode = indexSitemap[currentFirstNode.Id];
+                }
+                else if (currentFirstNode.ParentId.HasValue && indexSitemap.ContainsKey(currentFirstNode.ParentId.Value))
+                {
+                    activeNode = indexSitemap[currentFirstNode.ParentId.Value];
+                }
+                else
+                {
+                    _logger.LogDebug($"Not found any node for sitemap id: {currentFirstNode.Id} or parent id {currentFirstNode.ParentId}");
+                }
+
+                activeNode.SetActive(true);
+                _logger.LogDebug($"Set active node: {activeNode}");
+
+                ChangeActiveNode?.Invoke(this, new ChangeActiveNodeEventArgs
+                {
+                    FoundActiveNode = activeNode != null,
+                    ActiveNode = activeNode
+                });
             }
         }
+
     }
 }
