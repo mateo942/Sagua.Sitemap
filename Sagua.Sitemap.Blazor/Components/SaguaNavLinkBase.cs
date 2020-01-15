@@ -13,5 +13,12 @@ namespace Sagua.Sitemap.Blazor.Components
 
         protected bool HasChildren
             => MenuNode.Children != null && MenuNode.Children.Any();
+
+        protected bool IsOpen { get; set; }
+
+        protected void OpenCloseClick()
+        {
+            IsOpen = !IsOpen;
+        }
     }
 }

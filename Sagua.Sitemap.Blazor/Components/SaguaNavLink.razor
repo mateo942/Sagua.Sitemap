@@ -1,19 +1,27 @@
 ﻿@inherits SaguaNavLinkBase
 
-<li>
-    <a href="@MenuNode.Path" data-active=@MenuNode.IsActive >@MenuNode.Title</a>
+<li class="nav-item">
+
 
     @{
         if (HasChildren)
         {
-            <ul>
-                @{
-                    foreach (var child in MenuNode.Children)
-                    {
-                        <Sagua.Sitemap.Blazor.Components.SaguaNavLink MenuNode="child"></Sagua.Sitemap.Blazor.Components.SaguaNavLink>
+            <a class="nav-link @(MenuNode.IsActive?"active":"")" aria-expanded="@(IsOpen?"true":"false")" href="javascript:;" @onclick=OpenCloseClick>@MenuNode.Title</a>
+
+            <div class="collapse @(IsOpen?"show":"")">
+                <ul style="list-style: none;" class="flex-column">
+                    @{
+                        foreach (var child in MenuNode.Children)
+                        {
+                            <Sagua.Sitemap.Blazor.Components.SaguaNavLink MenuNode="child"></Sagua.Sitemap.Blazor.Components.SaguaNavLink>
+                        }
                     }
-                }
-            </ul>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <a class="nav-link @(MenuNode.IsActive?"active":"")" aria-expanded="@(IsOpen?"true":"false")" href="@MenuNode.Path">@MenuNode.Title</a>
         }
     }
 </li>
