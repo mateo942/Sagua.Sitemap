@@ -1,0 +1,15 @@
+﻿@page "/games/{name}"
+
+<h1>Game: @Name</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at consectetur augue. Aenean eu dapibus turpis, at scelerisque erat. Phasellus in nisl ut urna malesuada placerat. Aliquam et velit non nibh semper egestas vel tempor nunc. Etiam varius eros auctor est scelerisque cursus. Duis commodo, velit id tincidunt sollicitudin, ipsum nulla lobortis leo, et efficitur urna lorem et dolor. Phasellus a turpis eu lorem consequat semper et id dui. Nam vestibulum ipsum et nisi aliquet, eu tempus augue tincidunt. Maecenas vitae mauris velit. Vivamus ex justo, luctus at pharetra sit amet, egestas a sapien. Etiam pretium dictum nisl.</p>
+
+@code {
+    [Parameter] public string Name { get; set; }
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
