@@ -26,6 +26,7 @@ namespace Sagua.Sitemap.Example
             serviceCollection.AddScoped<ISitemapNodeRepository, SitemapNodeInMemoryRepository>();
             serviceCollection.AddScoped<IMatchSitemapNode, DumyMatchSitemapNode>();
             serviceCollection.AddScoped<IMenuProvider, MenuProvider>();
+            serviceCollection.AddScoped<IBreadcrumbProvider, BreadcrumbProvider>();
             serviceCollection.AddOptions<MatchOptions>().Configure(x =>
             {
                 x.BasePath = "https://sagua.com";
@@ -36,12 +37,16 @@ namespace Sagua.Sitemap.Example
                 x.CacheExpiration = TimeSpan.FromSeconds(10);
                 x.UseIndexSitemap = true;
             });
+            serviceCollection.AddOptions<BreadcrumbOptions>().Configure(x =>
+            {
 
+            });
 
             serviceProvider = serviceCollection.BuildServiceProvider();
 
             FillSitemapNodes().GetAwaiter().GetResult();
             GetMenu().GetAwaiter().GetResult();
+            GetBreadcrumb().GetAwaiter().GetResult();
 
             Console.ReadKey(true);
         }
@@ -81,8 +86,24 @@ namespace Sagua.Sitemap.Example
                 var nodes2 = await menuProvider.GetAsync();
                 var activeNode2 = nodes1.FirstOrDefault(x => x.IsActive);
             }
+        }
 
+        static async Task GetBreadcrumb()
+        {
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var breadcrumbProvider= scope.ServiceProvider.GetRequiredService<IBreadcrumbProvider>();
 
+                await breadcrumbProvider.SetActiveAsync("/about");
+                var current = await breadcrumbProvider.GetAsync();
+
+                await breadcrumbProvider.SetActiveAsync("/about");
+                var current1 = await breadcrumbProvider.GetAsync();
+
+                await breadcrumbProvider.SetActiveAsync("/games/witcher-3");
+                var current2 = await breadcrumbProvider.GetAsync();
+                var currentFlat2 = await breadcrumbProvider.GetFlatAsync();
+            }
         }
     }
 }
