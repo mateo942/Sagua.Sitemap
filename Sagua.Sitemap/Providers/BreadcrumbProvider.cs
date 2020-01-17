@@ -79,7 +79,6 @@ namespace Sagua.Sitemap.Providers
         {
             _logger.LogDebug("Try set breadcrumb");
 
-            _logger.LogDebug("Check cache");
             CurrentBreadcrumb = await _memoryCache.GetOrCreateAsync(GetCacheNameForPath(path), async entry =>
             {
                 var currentNodes = await _matchSitemapNode.FindByPath(path);

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sagua.Sitemap.Models;
 using Sagua.Sitemap.Options;
@@ -12,16 +13,22 @@ namespace Sagua.Sitemap.Router
 {
     public class DumyMatchSitemapNode : IMatchSitemapNode
     {
+        private const string BY_PATH_CACHE = "DumyMatch_Path_{0}";
+        private string GetCacheNameForPath(string path)
+            => string.Format(BY_PATH_CACHE, path);
+
         private readonly ISitemapNodeRepository _sitemapNodeRepository;
         private readonly MatchOptions _matchOptions;
         private readonly ILogger<DumyMatchSitemapNode> _logger;
+        private readonly IMemoryCache _memoryCache;
 
         public DumyMatchSitemapNode(ISitemapNodeRepository sitemapNodeRepository, IOptions<MatchOptions> matchOptions,
-            ILogger<DumyMatchSitemapNode> logger)
+            ILogger<DumyMatchSitemapNode> logger, IMemoryCache memoryCache)
         {
             _sitemapNodeRepository = sitemapNodeRepository;
             _matchOptions = matchOptions.Value;
             _logger = logger;
+            _memoryCache = memoryCache;
         }
 
         public async Task<IEnumerable<SitemapNode>> FindByName(string name)
@@ -41,9 +48,16 @@ namespace Sagua.Sitemap.Router
                 path = path.Replace(_matchOptions.BasePath, "");
             }
 
-            var nodes = await _sitemapNodeRepository.GetListAsync(new Queries.SitemapNodeQuery
+            var nodes = await _memoryCache.GetOrCreateAsync(GetCacheNameForPath(path), async entry =>
             {
-                Path = path
+                entry.SetSlidingExpiration(_matchOptions.SlidingExpiration);
+
+                var nodes = await _sitemapNodeRepository.GetListAsync(new Queries.SitemapNodeQuery
+                {
+                    Path = path
+                });
+
+                return nodes;
             });
 
             return new List<SitemapNode>(nodes);

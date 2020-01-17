@@ -7,5 +7,6 @@ namespace Sagua.Sitemap.Options
     public class MatchOptions
     {
         public string BasePath { get; set; }
+        public TimeSpan SlidingExpiration = TimeSpan.FromMinutes(5);
     }
 }
