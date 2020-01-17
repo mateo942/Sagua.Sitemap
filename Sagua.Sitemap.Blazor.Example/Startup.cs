@@ -25,6 +25,7 @@ namespace Sagua.Sitemap.Blazor.Example
             services.AddScoped<ISitemapNodeRepository, SitemapNodeInMemoryRepository>();
             services.AddScoped<IMatchSitemapNode, DumyMatchSitemapNode>();
             services.AddScoped<IMenuProvider, BlazorMenuProvider>();
+            services.AddScoped<IBreadcrumbProvider, BlazorBreadcrumbProvider>();
             services.AddOptions<MatchOptions>().Configure(x =>
             {
                 x.BasePath = "https://localhost:44388";
@@ -35,6 +36,7 @@ namespace Sagua.Sitemap.Blazor.Example
                 x.CacheExpiration = TimeSpan.FromSeconds(10);
                 x.UseIndexSitemap = true;
             });
+            services.AddOptions<BreadcrumbOptions>();
 
             services.AddScoped<BuildMenuSitemapNode>();
         }
@@ -61,8 +63,6 @@ namespace Sagua.Sitemap.Blazor.Example
             });
 
             await menuProvider.BuidAsync();
-
-            var nodes = await menuProvider.GetAsync();
         }
     }
 }

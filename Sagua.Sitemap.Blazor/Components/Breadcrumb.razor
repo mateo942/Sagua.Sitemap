@@ -1,0 +1,21 @@
+﻿@inherits BreadcrumbBase
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    @{ 
+        int count = FlatBreadcrumb.Count();
+        for (int i = 0; i < count; i++)
+        {
+            var item = FlatBreadcrumb.ElementAt(i);
+
+            if(i == count - 1)
+            {
+                <li class="breadcrumb-item active" aria-current="page">@item.Name</li>
+            } else
+            {
+                <li class="breadcrumb-item"><a href="@item.Path">@item.Name</a></li>
+            }
+        }
+    }
+  </ol>
+</nav>

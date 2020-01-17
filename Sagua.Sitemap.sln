@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap", "Sagua.Sitemap\Sagua.Sitemap.csproj", "{9036FA40-1D37-401E-BB06-4489846299A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagua.Sitemap", "Sagua.Sitemap\Sagua.Sitemap.csproj", "{9036FA40-1D37-401E-BB06-4489846299A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap.Example", "Sagua.Sitemap.Example\Sagua.Sitemap.Example.csproj", "{1076C8E5-E8D3-4962-B8FD-EBADD76211BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagua.Sitemap.Example", "Sagua.Sitemap.Example\Sagua.Sitemap.Example.csproj", "{1076C8E5-E8D3-4962-B8FD-EBADD76211BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap.Blazor", "Sagua.Sitemap.Blazor\Sagua.Sitemap.Blazor.csproj", "{DC49EAB2-741C-46A5-842A-F15C32825E5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagua.Sitemap.Blazor", "Sagua.Sitemap.Blazor\Sagua.Sitemap.Blazor.csproj", "{DC49EAB2-741C-46A5-842A-F15C32825E5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagua.Sitemap.Blazor.Example", "Sagua.Sitemap.Blazor.Example\Sagua.Sitemap.Blazor.Example.csproj", "{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagua.Sitemap.Blazor.Example", "Sagua.Sitemap.Blazor.Example\Sagua.Sitemap.Blazor.Example.csproj", "{C53CC4B3-3DC7-42EB-9F0C-9F01C3101517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

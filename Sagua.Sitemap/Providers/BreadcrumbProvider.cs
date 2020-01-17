@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sagua.Sitemap.Dto;
+using Sagua.Sitemap.Events;
 using Sagua.Sitemap.Options;
 using Sagua.Sitemap.Repository;
 using Sagua.Sitemap.Router;
@@ -26,6 +27,8 @@ namespace Sagua.Sitemap.Providers
         protected readonly ILogger<BreadcrumbProvider> _logger;
 
         protected BreadcrumbDto CurrentBreadcrumb = BreadcrumbDto.Default;
+
+        public event EventHandler<ChangeBreadcrumbEventArgs> ChangeActive;
 
         public BreadcrumbProvider(ISitemapNodeRepository sitemapNodeRepository, IMatchSitemapNode matchSitemapNode,
             IOptions<BreadcrumbOptions> breadcrumbOptions, IMemoryCache memoryCache, ILogger<BreadcrumbProvider> logger)
@@ -116,6 +119,11 @@ namespace Sagua.Sitemap.Providers
                 }
 
                 return BreadcrumbDto.Default;
+            });
+
+            ChangeActive?.Invoke(this, new ChangeBreadcrumbEventArgs
+            {
+                CurrentBreadcrumb = CurrentBreadcrumb
             });
         }
         
