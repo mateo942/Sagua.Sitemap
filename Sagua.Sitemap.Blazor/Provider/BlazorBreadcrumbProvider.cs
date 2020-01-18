@@ -22,6 +22,7 @@ namespace Sagua.Sitemap.Blazor.Provider
         {
             _navigationManager = navigationManager;
             _navigationManager.LocationChanged += _navigationManager_LocationChanged;
+            this.SetActiveAsync(_navigationManager.Uri).GetAwaiter().GetResult();
         }
 
         private async void _navigationManager_LocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)

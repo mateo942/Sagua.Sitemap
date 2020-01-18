@@ -8,6 +8,7 @@ using Sagua.Sitemap.Repository;
 using Sagua.Sitemap.Router;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Sagua.Sitemap.Blazor.Provider
@@ -23,6 +24,7 @@ namespace Sagua.Sitemap.Blazor.Provider
             _navigationManager = navigationManager;
 
             _navigationManager.LocationChanged += _navigationManager_LocationChanged;
+            this.SetActiveNode(_navigationManager.Uri).GetAwaiter().GetResult();
         }
 
         private async void _navigationManager_LocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
