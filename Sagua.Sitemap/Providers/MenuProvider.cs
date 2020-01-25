@@ -160,7 +160,7 @@ namespace Sagua.Sitemap.Providers
                     _logger.LogDebug($"Not found any node for sitemap id: {currentFirstNode.Id} or parent id {currentFirstNode.ParentId}");
                 }
 
-                activeNode.SetActive(true);
+                activeNode?.SetActive(true);
                 _logger.LogDebug($"Set active node: {activeNode}");
 
                 ChangeActiveNode?.Invoke(this, new ChangeActiveNodeEventArgs

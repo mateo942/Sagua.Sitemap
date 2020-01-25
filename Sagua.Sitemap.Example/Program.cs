@@ -7,6 +7,8 @@ using Sagua.Sitemap.Router;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Sagua.Sitemap.Example
 {
@@ -64,6 +66,8 @@ namespace Sagua.Sitemap.Example
                 await sitemapNodeRepository.CreateAsync(new Models.SitemapNode(Guid.NewGuid(), "Witcher 1", "/games/witcher-1", games.Id, Models.NodeType.Menu));
                 await sitemapNodeRepository.CreateAsync(new Models.SitemapNode(Guid.NewGuid(), "Witcher 2", "/games/witcher-2", games.Id, Models.NodeType.Menu));
                 await sitemapNodeRepository.CreateAsync(new Models.SitemapNode(Guid.NewGuid(), "Witcher 3", "/games/witcher-3", games.Id, Models.NodeType.Menu));
+                var someGame = await sitemapNodeRepository.CreateAsync(new Models.SitemapNode(Guid.NewGuid(), "Some Game", "/games/*", games.Id, Models.NodeType.UniqueDefault));
+                await sitemapNodeRepository.CreateAsync(new Models.SitemapNode(Guid.NewGuid(), "Some Game Help", "/games/*/help", someGame.Id, Models.NodeType.UniqueDefault));
             }
         }
 
@@ -85,6 +89,14 @@ namespace Sagua.Sitemap.Example
                 await menuProvider.SetActiveNode("/games/witcher-4");
                 var nodes2 = await menuProvider.GetAsync();
                 var activeNode2 = nodes1.FirstOrDefault(x => x.IsActive);
+
+                await menuProvider.SetActiveNode($"/games/{Guid.NewGuid().ToString()}");
+                var nodes3 = await menuProvider.GetAsync();
+                var activeNode3 = nodes1.FirstOrDefault(x => x.IsActive);
+
+                await menuProvider.SetActiveNode($"/games/{Guid.NewGuid().ToString()}/help");
+                var nodes4 = await menuProvider.GetAsync();
+                var activeNode4 = nodes1.FirstOrDefault(x => x.IsActive);
             }
         }
 
@@ -103,6 +115,10 @@ namespace Sagua.Sitemap.Example
                 await breadcrumbProvider.SetActiveAsync("/games/witcher-3");
                 var current2 = await breadcrumbProvider.GetAsync();
                 var currentFlat2 = await breadcrumbProvider.GetFlatAsync();
+
+                await breadcrumbProvider.SetActiveAsync($"/games/{Guid.NewGuid().ToString()}/help");
+                var current3 = await breadcrumbProvider.GetAsync();
+                var currentFlat3 = await breadcrumbProvider.GetFlatAsync();
             }
         }
     }
