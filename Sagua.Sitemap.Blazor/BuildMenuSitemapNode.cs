@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Sagua.Sitemap.Models;
 using Sagua.Sitemap.Repository;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,18 @@ namespace Sagua.Sitemap.Blazor
     public class SitemapNodeConfiguration
     {
         public string Icon { get; set; }
+        public NodeType? NodeType { get; set; }
 
         public void ApplayConfiguration(Models.SitemapNode node)
         {
             if (!string.IsNullOrEmpty(Icon))
             {
                 node.SetIcon(Icon);
+            }
+
+            if (NodeType.HasValue)
+            {
+                node.SetNodeType(NodeType.Value); 
             }
         }
     }

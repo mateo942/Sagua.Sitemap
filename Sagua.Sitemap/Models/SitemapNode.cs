@@ -60,5 +60,12 @@ namespace Sagua.Sitemap.Models
 
             return this;
         }
+
+        public SitemapNode SetNodeType(NodeType nodeType)
+        {
+            NodeType = nodeType;
+
+            return this;
+        }
     }
 }
